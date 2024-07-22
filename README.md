@@ -60,6 +60,7 @@ This is the official issue-tracker for HPX. Please create a new issue [here](htt
 # TODOs
 
 - ~~Fix docker permissions issues~~
-- Fix docker volumes config issues
+- ~~Fix docker volumes config issues~~
+- Unassign imported favorites from default user
 - Add docker build ci
 - Create db migration script (sqlite -> postgres)

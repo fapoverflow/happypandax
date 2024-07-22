@@ -10,6 +10,7 @@ services:
     volumes:
       - /mnt/data/hp/data:/data
       - /mnt/data/hp/config:/happypandax/data
+      - /mnt/data/hp/config/config.yaml:/happypandax/config.yaml
 #      - /media/Files:/content
 #    networks:
 #      - happy-panda-net
