@@ -1,0 +1,60 @@
+# This Dockerfile requires the build context to be the repository root
+# and not it's own folder
+
+FROM alpine:edge
+
+# Upgrade
+RUN apk upgrade && apk add --no-cache bash ca-certificates wget libstdc++ tzdata gcompat musl musl-utils musl-locales
+
+# Use bash
+RUN ln -sf /bin/bash /bin/sh
+
+# Install language pack
+ENV VERSION_GLIBC="2.35-r1"
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$VERSION_GLIBC/glibc-$VERSION_GLIBC.apk && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$VERSION_GLIBC/glibc-bin-$VERSION_GLIBC.apk && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$VERSION_GLIBC/glibc-i18n-$VERSION_GLIBC.apk && \
+    apk add --force-overwrite glibc-bin-$VERSION_GLIBC.apk glibc-i18n-$VERSION_GLIBC.apk glibc-$VERSION_GLIBC.apk
+RUN echo 'export LC_ALL=en_US.UTF-8' >> /etc/profile.d/locale.sh && \
+  sed -i 's|LANG=C.UTF-8|LANG=en_US.UTF-8|' /etc/profile.d/locale.sh
+
+ARG ZONE
+# Set the lang, you can also specify it as as environment variable through docker-compose.yml
+ENV LANGUAGE=en_US.UTF-8 \
+    TZ=$ZONE
+RUN ln -s /usr/share/zoneinfo/$ZONE /etc/localtime
+RUN echo $ZONE >/etc/timezone
+
+# Set paths
+WORKDIR /happypandax
+ENV HPX_DOCKER=true
+ENV HPX_DATA=/data
+ENV HPX_CONTENT=/content
+RUN mkdir $HPX_DATA $HPX_CONTENT
+VOLUME ["/data", "/content"]
+
+# Add user
+ARG USER_ID
+ARG USER_NAME
+ARG GROUP_ID
+ARG GROUP_NAME
+RUN addgroup -g $GROUP_ID $GROUP_NAME && \
+    adduser -D -u $USER_ID -G $GROUP_NAME $USER_NAME
+
+# Set permissions
+ADD --chown=$USER_NAME:$GROUP_NAME docker/happypandax0.13.3.linux.tar.gz .
+ADD --chown=$USER_NAME:$GROUP_NAME docker/startup.sh .
+ADD --chown=$USER_NAME:$GROUP_NAME docker/config.yaml $HPX_DATA
+RUN chown -R $USER_NAME:$GROUP_NAME $HPX_DATA && \
+    chown -R $USER_NAME:$GROUP_NAME $HPX_CONTENT && \
+    chown -R $USER_NAME:$GROUP_NAME /happypandax
+#RUN chmod -R 777 /happypandax
+RUN chmod +x ./startup.sh
+#USER $USER_NAME # Do not. Container needs to start as root, then startup.sh run as hpx user
+
+EXPOSE 7006
+EXPOSE 7007
+EXPOSE 7008
+#CMD ["./startup.sh"]
+ENTRYPOINT ["./startup.sh"]

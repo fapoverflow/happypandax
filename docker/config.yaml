@@ -1,0 +1,23 @@
+import:
+    skip_existing_galleries: true
+    transparent_nested_folders: true
+server:
+  disable_default_user: true
+  require_auth: true
+  allow_guests: false
+watch:
+    enable: true
+    dirs:
+      - ${HPX_CONTENT}
+    options:
+      ${HPX_CONTENT}:
+        import.scan_on_startup: true
+plugin:
+    plugin_dir: ${HPX_DATA}/plugins
+#db:
+#    dialect: postgres
+#    username: happypandax
+#    password: postgres
+#    host: db
+#    port: 5432
+#    name: happypanda

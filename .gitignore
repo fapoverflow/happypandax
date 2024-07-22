@@ -255,3 +255,6 @@ vcpkg_installed
 Screenshot 2022-09-01 163235.png
 
 !**/semantic/tasks/build
+**/*.old
+**/*.tar.gz
+**/*private*.*

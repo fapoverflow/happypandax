@@ -1,0 +1,33 @@
+version: "3"
+services:
+  happypandax:
+    image: faptain/happypandax:0.13.3
+    restart: always
+    ports:
+      - 7006:7006
+      - 7007:7007
+      - 7008:7008
+    volumes:
+      - /mnt/data/hp/data:/data
+      - /mnt/data/hp/config:/happypandax/data
+#      - /media/Files:/content
+#    networks:
+#      - happy-panda-net
+#    links:
+#      - db
+#  db:
+#    image: postgres:latest
+#    restart: always
+#    ports:
+#      - 7005:5432
+#    environment:
+#      POSTGRES_USER: happypandax
+#      POSTGRES_PASSWORD: postgres
+#    volumes:
+#      - /mnt/data/postgres:/var/lib/postgresql/data
+#    logging:
+#      driver: none
+#    networks:
+#      - happy-panda-net
+#networks:
+#  happy-panda-net:

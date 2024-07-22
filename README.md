@@ -56,3 +56,10 @@ HappyPanda X comes bundled with a default webclient front-end
 # Want to report an issue or suggest a feature?
 
 This is the official issue-tracker for HPX. Please create a new issue [here](https://github.com/happypandax/happypandax/issues). If the issue is related to a plugin, please use the [issue tracker for plugins](https://github.com/happypandax/plugins/issues).
+
+# TODOs
+
+- ~~Fix docker permissions issues~~
+- Fix docker volumes config issues
+- Add docker build ci
+- Create db migration script (sqlite -> postgres)

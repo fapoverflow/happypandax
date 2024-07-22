@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - master
-      - dev
+#      - dev
 env:
   NODE_VERSION: "18.14.0"
   HAPPYPANDAX_TOKEN: ${{ secrets.HAPPYPANDAX_TOKEN }}
