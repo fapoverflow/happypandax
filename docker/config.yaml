@@ -1,8 +1,14 @@
 import:
+    add_to_inbox: true
     skip_existing_galleries: true
     transparent_nested_folders: true
 server:
-  disable_default_user: true
+  server_name: hpxl
+  host: 0.0.0.0
+  port: 7007
+  host_web: 0.0.0.0
+  port_web: 7008
+  disable_default_user: false
   require_auth: true
   allow_guests: false
 watch:
